@@ -46,6 +46,13 @@ export default class App extends Component<Props> {
     })
   }
   //¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬
+  changeTaxesOrTip() {
+    this.setState({
+      amount: '',
+      result: ''
+    })
+  }
+  //¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬
   render() {
     return (
       <View style={styles.container}>
@@ -74,7 +81,12 @@ export default class App extends Component<Props> {
           <TextInput
             style = {[styles.input, styles.input_space]}
             keyboardType = 'numeric'
-            onChangeText = {(tax) => this.setState({tax})}
+            onChangeText = {
+              (tax) => {
+                this.setState({tax}),
+                this.changeTaxesOrTip()
+              }
+            }
             value={this.state.tax}
           />
         </View>
@@ -83,7 +95,12 @@ export default class App extends Component<Props> {
           <TextInput
             style={[styles.input, styles.input_space]}
             keyboardType = 'numeric'
-            onChangeText = {(tip) => this.setState({tip})}
+            onChangeText = {
+              (tip) => {
+                this.setState({tip}),
+                this.changeTaxesOrTip()
+              }
+            }
             value={this.state.tip}
           />
         </View>
