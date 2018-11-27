@@ -1,6 +1,6 @@
 //¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬
 import React, {Component} from 'react';
-import {StyleSheet, Text, View, Image, Dimensions, TextInput} from 'react-native';
+import {StyleSheet, Text, View, Image, Dimensions, TextInput, AsyncStorage} from 'react-native';
 //¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬
 const win = Dimensions.get('window');
 const ratio = win.width/(333 * 0.7);
@@ -16,6 +16,16 @@ export default class App extends Component<Props> {
       tip: '0.20',
       result: ''
     }
+    AsyncStorage.getItem('tax').then((value) => {
+      if (value) {
+        this.setState({'tax': value})
+      }
+    })
+    AsyncStorage.getItem('tip').then((value) => {
+      if (value) {
+        this.setState({'tip': value})
+      }
+    })
   }
   //¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬
   calculate(the_amount) {
@@ -46,7 +56,8 @@ export default class App extends Component<Props> {
     })
   }
   //¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬
-  changeTaxesOrTip() {
+  changeTaxesOrTip(key, value) {
+    AsyncStorage.setItem(key, value);
     this.setState({
       amount: '',
       result: ''
@@ -84,7 +95,7 @@ export default class App extends Component<Props> {
             onChangeText = {
               (tax) => {
                 this.setState({tax}),
-                this.changeTaxesOrTip()
+                this.changeTaxesOrTip('tax', tax)
               }
             }
             value={this.state.tax}
@@ -98,7 +109,7 @@ export default class App extends Component<Props> {
             onChangeText = {
               (tip) => {
                 this.setState({tip}),
-                this.changeTaxesOrTip()
+                this.changeTaxesOrTip('tip', tip)
               }
             }
             value={this.state.tip}
