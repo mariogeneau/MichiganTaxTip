@@ -1,6 +1,7 @@
 //¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬
 import React, {Component} from 'react';
 import {StyleSheet, Text, View, Image, Dimensions, TextInput, AsyncStorage} from 'react-native';
+import brain from './Brain.js'
 //¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬
 const win = Dimensions.get('window');
 const ratio = win.width/(333 * 0.7);
@@ -39,18 +40,15 @@ export default class App extends Component<Props> {
   }
   //¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬
   returnTaxe(the_amount) {
-    const amount = Number(the_amount)
-    const the_tax = Number(this.state.tax)
-    return the_amount * the_tax
+    return brain.getTaxes(the_amount, this.state.tax);
   }
   //¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬
   returnTaxePlusAmount(the_amount) {
-    const the_tax = this.returnTaxe(the_amount);
-    return (Number(the_amount) + the_tax).toFixed(2);
+    return brain.getTaxesPlusAmount(the_amount, this.state.tax);
   }
   //¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬
   returnTip(the_amount) {
-    const the_tip = Number((Number(the_amount) * Number(this.state.tip)).toFixed(2))
+    const the_tip = brain.getTip(the_amount, this.state.tip);
     this.setState({
       result: `$${(Number(this.returnTaxePlusAmount(the_amount)) + the_tip).toFixed(2)}`
     })
